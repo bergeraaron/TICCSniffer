@@ -146,6 +146,32 @@ def read_data():
 	#newFile.close()
 
 
+def parse_cc2531_packet(pkt)
+	#from https://github.com/christianpanton/ccsniffer/blob/master/ccsniffer.py
+	packetlen = packet[1]
+	if len(packet) - 3 != packetlen:
+		return None
+	# unknown header produced by the radio chip
+	header = packet[3:7].tostring()
+	# the data in the payload
+	payload = packet[8:-2].tostring()
+	# length of the payload
+	payloadlen = packet[7] - 2 # without fcs
+	if len(payload) != payloadlen:
+		return None
+	# current time
+	timestamp = time.gmtime()
+	# used to derive other values
+	fcs1, fcs2 = packet[-2:]
+	# rssi is the signed value at fcs1
+	rssi = (fcs1 + 2**7) % 2**8 - 2**7  - 73
+	# crc ok is the 7th bit in fcs2
+	crc_ok = fcs2 & (1 << 7) > 0
+	# correlation value is the unsigned 0th-6th bit in fcs2
+	corr = fcs2 & 0x7f
+
+	
+	
 if __name__ == "__main__":
 	init()
 	read_data()
