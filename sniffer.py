@@ -2,7 +2,7 @@
 import time
 import errno
 #import threading
-#import binascii
+import binascii
 
 import usb.core
 import usb.util
@@ -136,6 +136,8 @@ def read_data():
 			if x >= 0x20 and x <= 0x7D:
 				print chr(x),
 		print
+		if len(ret) > 10:
+			parse_cc2531_packet(ret)
 	
 		ctr = ctr + 1
 
@@ -146,7 +148,7 @@ def read_data():
 	#newFile.close()
 
 
-def parse_cc2531_packet(pkt)
+def parse_cc2531_packet(packet):
 	#from https://github.com/christianpanton/ccsniffer/blob/master/ccsniffer.py
 	packetlen = packet[1]
 	if len(packet) - 3 != packetlen:
@@ -170,13 +172,13 @@ def parse_cc2531_packet(pkt)
 	# correlation value is the unsigned 0th-6th bit in fcs2
 	corr = fcs2 & 0x7f
 
-	print("Channel:     %d" % self.channel)
-	print("Timestamp:   %s" % time.strftime("%H:%M:%S", self.timestamp))
-	print("Header:      %s" % binascii.hexlify(self.header))
-	print("RSSI:        %d" % self.rssi)
-	print("CRC OK:      %s" % self.crc_ok)
-	print("Correlation: %d" % self.correlation)
-	print("Payload:     %s" % binascii.hexlify(self.payload))
+	#print("Channel:     %d" % self.channel)
+	print("Timestamp:   %s" % time.strftime("%H:%M:%S", timestamp))
+	print("Header:      %s" % binascii.hexlify(header))
+	print("RSSI:        %d" % rssi)
+	print("CRC OK:      %s" % crc_ok)
+	print("Correlation: %d" % corr)
+	print("Payload:     %s" % binascii.hexlify(payload))
 	
 	
 if __name__ == "__main__":
