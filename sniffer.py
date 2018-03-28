@@ -170,6 +170,13 @@ def parse_cc2531_packet(pkt)
 	# correlation value is the unsigned 0th-6th bit in fcs2
 	corr = fcs2 & 0x7f
 
+	print("Channel:     %d" % self.channel)
+	print("Timestamp:   %s" % time.strftime("%H:%M:%S", self.timestamp))
+	print("Header:      %s" % binascii.hexlify(self.header))
+	print("RSSI:        %d" % self.rssi)
+	print("CRC OK:      %s" % self.crc_ok)
+	print("Correlation: %d" % self.correlation)
+	print("Payload:     %s" % binascii.hexlify(self.payload))
 	
 	
 if __name__ == "__main__":
