@@ -92,10 +92,11 @@ def init():
 		if power_status[0] == 4: break
 		time.sleep(0.1)
 	print('powered up')
-
-	print('set channel to 37')#bt channel
+	channel = 25
+	print('set channel')#bt channel
 	#channels 37,38,39 are the advertisement channels for BTLE
-	set_channel(37)
+	#channels 11-16 are channels for ZigBee 2.4
+	set_channel(channel)
 	print('post channel')
 
 
